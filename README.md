@@ -52,12 +52,20 @@ aniversário adolescente. Trocar quando existir.
 ```
 index.html               marcação e todo o conteúdo em texto
 css/style.css            design system + seções (comentado por bloco)
+css/fonts.css            @font-face das fontes locais (gerado)
 js/config.js             configuração editável
 js/camera-sequence.js    a câmera do hero desenhada em canvas
 js/main.js               Lenis, ScrollTrigger, menu, parallax, galerias
+js/vendor/               GSAP, ScrollTrigger e Lenis — ver o README de lá
 assets/img/              fotos tratadas (JPG + WebP)
+assets/fonts/            Instrument Serif e Inter Tight (woff2)
 assets/frames/           sequência de frames do hero (120 WebP + manifest.json)
 ```
+
+**O site não faz nenhuma requisição para fora do próprio domínio.** Bibliotecas
+e fontes moram aqui dentro; servidas por CDN, uma indisponibilidade derrubaria o
+hero, a rolagem e o menu de uma vez. Verificado com as CDNs bloqueadas: 142
+requisições, nenhuma externa, nenhum erro.
 
 ---
 

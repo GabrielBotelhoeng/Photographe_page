@@ -14,9 +14,11 @@
 <meta property="og:locale" content="pt_BR">
 
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- Fontes servidas pelo próprio site: nada aqui sai para CDN de terceiro. -->
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-tight-normal-300-600-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/instrument-serif-normal-400-latin.woff2" crossorigin>
+<link rel="stylesheet" href="css/fonts.css">
 
 <link rel="preload" as="image" href="assets/img/igreja-nave.webp">
 <link rel="stylesheet" href="css/style.css">
@@ -465,9 +467,12 @@
 
 <div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
 
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<!-- Bibliotecas locais (ver js/vendor/README.md para versões e como atualizar).
+     Ficam aqui dentro de propósito: numa CDN fora do ar o hero, a rolagem e o
+     menu cairiam juntos. -->
+<script src="js/vendor/gsap.min.js"></script>
+<script src="js/vendor/ScrollTrigger.min.js"></script>
+<script src="js/vendor/lenis.min.js"></script>
 <script src="js/config.js"></script>
 <script src="js/camera-sequence.js"></script>
 <script src="js/main.js"></script>
