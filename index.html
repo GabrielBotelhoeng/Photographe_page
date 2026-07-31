@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<link rel="preload" as="image" href="assets/img/noivos-capela.webp">
+<link rel="preload" as="image" href="assets/img/igreja-nave.webp">
 <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -89,11 +89,13 @@
 
       <canvas class="hero__canvas" id="cameraCanvas"></canvas>
 
-      <!-- foto revelada ao atravessar a lente -->
+      <!-- Foto revelada ao atravessar a lente. No fim da travessia ela ocupa a
+           tela inteira, então precisa ser uma imagem que aguente corte
+           horizontal: esta é quase quadrada e simétrica. -->
       <div class="hero__reveal" id="heroReveal" aria-hidden="true">
         <picture>
-          <source srcset="assets/img/noivos-capela.webp" type="image/webp">
-          <img src="assets/img/noivos-capela.jpg" alt="">
+          <source srcset="assets/img/igreja-nave.webp" type="image/webp">
+          <img src="assets/img/igreja-nave.jpg" alt="">
         </picture>
       </div>
 

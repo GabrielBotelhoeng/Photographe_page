@@ -66,6 +66,9 @@ window.CameraSequence = (function () {
 
   var BLADES = 9;
 
+  /* modo 'frames': a partir daqui o canvas se dissolve para revelar a foto */
+  var FRAMES_DISSOLVE = 0.86;
+
   /* --------------------------------------------------------------- state */
   var cv, ctx, W = 0, H = 0, DPR = 1, baseR = 0;
   var dust = [];
@@ -78,7 +81,9 @@ window.CameraSequence = (function () {
   /*  SETUP                                                                */
   /* ==================================================================== */
 
-  function init(canvas) {
+  /* onReady(mode) avisa quando o modo definitivo está decidido — os frames
+     carregam depois do init, então quem depende do modo precisa ser avisado. */
+  function init(canvas, onReady) {
     cv = canvas;
     ctx = cv.getContext('2d', { alpha: true });
     reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -90,8 +95,15 @@ window.CameraSequence = (function () {
       loadFrames().then(function (ok) {
         if (ok) { mode = 'frames'; }
         else if (wanted === 'frames') { console.warn('[hero] frames não encontrados, usando modo procedural'); }
-        render(lastP);
+        /* Com movimento reduzido o hero fica parado num quadro só. No procedural
+           esse quadro tem o diafragma aberto e a foto aparece pelo furo; como os
+           frames são opacos, aqui vamos até o fim, onde o canvas se dissolve e
+           entrega a fotografia. */
+        render(mode === 'frames' && reduced ? 1 : lastP);
+        if (onReady) onReady(mode);
       });
+    } else if (onReady) {
+      onReady(mode);
     }
     render(0);
     return api;
@@ -194,10 +206,20 @@ window.CameraSequence = (function () {
     var i = clamp(Math.round(p * (frameCount - 1)), 0, frameCount - 1);
     var img = frames[i];
     if (!img || !img.naturalWidth) return;
+
+    /* Os frames são opacos — não dá para furar o diafragma como no modo
+       procedural. Para a travessia terminar na fotografia (#heroReveal, que
+       vive atrás do canvas), o canvas se dissolve no trecho final: a luz do
+       vídeo transborda e a foto assume. */
+    var out = remap(p, FRAMES_DISSOLVE, 1);
+    if (out >= 1) return;
+    ctx.globalAlpha = 1 - eInOut(out);
+
     // cover
     var s = Math.max(W / img.naturalWidth, H / img.naturalHeight);
     var w = img.naturalWidth * s, h = img.naturalHeight * s;
     ctx.drawImage(img, (W - w) / 2, (H - h) / 2, w, h);
+    ctx.globalAlpha = 1;
   }
 
   /* -------------------------------------------------------- procedural */
@@ -681,7 +703,15 @@ window.CameraSequence = (function () {
     init: init,
     render: render,
     resize: resize,
-    phase: function (p) { return script(clamp(p)).phase; },
+    phase: function (p) {
+      p = clamp(p);
+      /* o vídeo não tem vista explodida — o HUD não pode anunciar uma */
+      if (mode === 'frames') {
+        return p < 0.34 ? 'aproximação' : p < 0.64 ? 'lente'
+             : p < FRAMES_DISSOLVE ? 'diafragma' : 'travessia';
+      }
+      return script(p).phase;
+    },
     get mode() { return mode; }
   };
   return api;

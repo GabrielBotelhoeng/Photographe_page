@@ -71,6 +71,14 @@ body.menu-open{ overflow:hidden; }
 
 img,picture,svg,canvas{ display:block; max-width:100%; }
 img{ height:auto; }
+
+/* O <picture> é uma caixa a mais entre o contêiner e a <img>. Sem altura
+   própria ele não repassa o `height:100%`: a imagem cai na proporção
+   intrínseca, o `object-fit:cover` nunca entra em ação e o arquivo transborda
+   o contêiner. Vale para todo lugar onde a imagem deva preencher a caixa. */
+.hero__reveal picture,
+.folio__frame picture,
+.stories__layer picture{ width:100%; height:100%; }
 a{ color:inherit; text-decoration:none; }
 button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
 ul,ol{ list-style:none; margin:0; padding:0; }
