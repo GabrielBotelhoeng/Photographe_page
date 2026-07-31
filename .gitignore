@@ -1,0 +1,12 @@
+# capturas de tela originais do Instagram (material bruto, já processado em assets/img)
+fotos/
+modelos/
+
+# sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# ferramentas
+node_modules/
+.vscode/
