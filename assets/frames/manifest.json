@@ -1,0 +1,5 @@
+{
+  "dir": "assets/frames/",
+  "pattern": "frame_%04d.webp",
+  "count": 120
+}

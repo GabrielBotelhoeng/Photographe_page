@@ -207,7 +207,11 @@
     var track = $('.hero__track');
     if (!canvas || !track || !window.CameraSequence) return;
 
-    var seq = window.CameraSequence.init(canvas);
+    var progress = 0;
+    var seq = window.CameraSequence.init(canvas, function () {
+      // o HUD nasce com o vocabulário do procedural; nos frames ele é outro
+      if (hud) hud.textContent = window.CameraSequence.phase(progress);
+    });
 
     var reveal = $('#heroReveal');
     var revealImg = reveal ? reveal.querySelector('img') : null;
@@ -240,7 +244,7 @@
       end: 'bottom bottom',
       scrub: 0.55,
       onUpdate: function (self) {
-        var p = self.progress;
+        var p = progress = self.progress;
         seq.render(p);
 
         fade(c1, band(p, 0, 0.001, 0.09, 0.15));
